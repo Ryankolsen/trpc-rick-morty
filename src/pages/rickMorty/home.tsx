@@ -6,7 +6,7 @@ type Inputs = {
 };
 0;
 
-const home = (props: any) => {
+const Home = (props) => {
   const router = useRouter();
   const {
     register,
@@ -30,4 +30,4 @@ const home = (props: any) => {
     </div>
   );
 };
-export default home;
+export default Home;

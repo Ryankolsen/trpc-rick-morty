@@ -6,7 +6,7 @@ import Error from "next/error";
 const RickMorty: NextPage = (props) => {
   const router = useRouter();
 
-  //get id number passed to route
+  //get id number passed to router
   const lookupId = router.query.id as string;
 
   //handle prev and next buttons

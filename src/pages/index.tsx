@@ -26,13 +26,21 @@ const Home: NextPage = (props) => {
 
         {session ? (
           <div>
-            <p>hi {session.user?.name}</p>
+            <p>Hi {session.user?.name}</p>
 
-            <button onClick={() => signOut()}>Logout</button>
+            <button
+              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+              onClick={() => signOut()}
+            >
+              Logout
+            </button>
           </div>
         ) : (
           <div>
-            <button onClick={() => signIn("discord")}>
+            <button
+              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+              onClick={() => signIn("discord")}
+            >
               Login with Discord
             </button>
           </div>

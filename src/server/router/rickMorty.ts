@@ -28,13 +28,17 @@ export const rickMortyRouter = createRouter().query("getByNumber", {
   }),
   async resolve({ input }) {
     const id = input.text;
-    console.log(`input = ${input.text}`);
     try {
       const data = await fetch(
         `https://rickandmortyapi.com/api/character/${id}`
       ).then((res) => res.json());
       //   console.log(data.image);
-      return { name: data.name, id: data.id, image: data.image };
+      return {
+        name: data.name,
+        id: data.id,
+        image: data.image,
+        species: data.species,
+      };
     } catch (error) {
       console.error(error);
     }

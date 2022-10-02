@@ -21,9 +21,3 @@ export default defineNextConfig({
     defaultLocale: "en",
   },
 });
-
-// module.exports = {
-//   images: {
-//     domains: ["rickandmortyapi.com"],
-//   },
-// };

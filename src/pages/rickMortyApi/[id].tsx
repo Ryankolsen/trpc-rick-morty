@@ -31,48 +31,64 @@ const RickMorty: NextPage = (props) => {
   const handleNextClick = () => {
     router.push(`/rickMortyApi/${nextId.toString()}`);
   };
+  const handleHomeClick = () => {
+    router.push("/");
+  };
 
-  if (isLoading) {
-    return <p> Loading...</p>;
-  }
-  if (!data) {
-    return (
-      <p>
-        <Error statusCode={404} />
-      </p>
-    );
-  }
   return (
     <div>
-      <h1 className="text-2xl font-serif text-center p-4"> {data.name}</h1>
-      <div className=" w-screen h-[500px] bg-gray-700 ">
-        <div className="flex justify-center">
-          <div className=" pt-14 p-2 rounded-md ">
-            <img src={data.image} alt={data.name} />
-          </div>
-        </div>
+      {isLoading ? (
+        <h1 className="text-2xl font-serif text-center p-4"> Loading...</h1>
+      ) : !data?.id ? (
+        <>
+          <h1 className="text-2xl font-serif text-center p-4">
+            {" "}
+            Please search for an id between 1 and 827
+          </h1>{" "}
+          <Error statusCode={404} />
+        </>
+      ) : data ? (
+        <>
+          {" "}
+          <h1 className="text-2xl font-serif text-center p-4"> {data.name}</h1>
+          <div className=" w-screen h-[600px] bg-gray-700 ">
+            <div className="flex justify-center">
+              <div className=" pt-14 p-2 rounded-md ">
+                <img src={data.image} alt={data.name} />
+              </div>
+            </div>
 
-        <div className="flex justify-center  ">
-          <div className="w-52 flex justify-around pt-4">
-            <div className="">
-              <button
-                onClick={() => handlePrevClick()}
-                className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-              >
-                Prev
-              </button>
+            <div className="flex justify-center  ">
+              <div className="w-52 flex justify-around pt-4">
+                <div className="">
+                  <button
+                    onClick={() => handlePrevClick()}
+                    className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+                  >
+                    Prev
+                  </button>
+                </div>
+                <div>
+                  <button
+                    onClick={() => handleNextClick()}
+                    className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             </div>
-            <div>
+            <div className="flex justify-center p-10">
               <button
-                onClick={() => handleNextClick()}
                 className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+                onClick={() => handleHomeClick()}
               >
-                Next
+                Home
               </button>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      ) : null}
     </div>
   );
 };

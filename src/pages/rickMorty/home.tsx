@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 type Inputs = {
   number: string;
 };
-0;
 
+//@ts-ignore
 const Home = (props) => {
   const router = useRouter();
   const {

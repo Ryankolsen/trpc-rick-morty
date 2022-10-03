@@ -3,6 +3,14 @@ import { useRouter } from "next/router";
 import { trpc } from "../../../utils/trpc";
 import Error from "next/error";
 
+interface returnArray {
+  name: string;
+  id: string;
+  image: string;
+  species: string;
+}
+[];
+
 const RickSearchByName: NextPage = (props) => {
   const router = useRouter();
 
@@ -15,6 +23,7 @@ const RickSearchByName: NextPage = (props) => {
     "rickMortygetByName",
     { text: lookupName },
   ]);
+  console.log(data);
 
   const handleHomeClick = () => {
     router.push("/");
@@ -23,7 +32,7 @@ const RickSearchByName: NextPage = (props) => {
     <div>
       {isLoading ? (
         <h1 className="text-2xl font-serif text-center p-4"> Loading...</h1>
-      ) : !data?.id ? (
+      ) : !data?.results ? (
         <>
           <h1 className="text-2xl font-serif text-center p-4">
             {" "}
@@ -31,24 +40,37 @@ const RickSearchByName: NextPage = (props) => {
           </h1>{" "}
           <Error statusCode={404} />
         </>
-      ) : data ? (
+      ) : data.results ? (
         <>
-          {" "}
-          <h1 className="text-2xl font-serif text-center p-4"> {data.name}</h1>
-          <div className=" w-screen h-[600px] bg-gray-700 ">
-            <div className="flex justify-center">
-              <div className=" pt-14 p-2 rounded-md ">
-                <img src={data.image} alt={data.name} />
+          {/* <h1 className="text-2xl font-serif text-center p-4"> {}</h1> */}
+          <div className=" w-screen min-h-[600px] bg-gray-700 ">
+            <>
+              {data.results?.map((result) => {
+                return (
+                  <>
+                    <div id={result.id}>
+                      <h1 className="text-2xl font-serif text-center p-4">
+                        {result.name}
+                      </h1>
+                    </div>
+                    ;
+                    <div className="flex justify-center">
+                      <div className=" pt-14 p-2 rounded-md ">
+                        <img src={result.image} alt={result.name} />
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+              <div className="flex justify-center p-10">
+                <button
+                  className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+                  onClick={() => handleHomeClick()}
+                >
+                  Home
+                </button>
               </div>
-            </div>
-            <div className="flex justify-center p-10">
-              <button
-                className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-                onClick={() => handleHomeClick()}
-              >
-                Home
-              </button>
-            </div>
+            </>
           </div>
         </>
       ) : null}

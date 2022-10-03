@@ -5,7 +5,7 @@ type Inputs = {
   number: string;
 };
 
-const Home = (props: any) => {
+const Home = (props) => {
   const router = useRouter();
   const {
     register,

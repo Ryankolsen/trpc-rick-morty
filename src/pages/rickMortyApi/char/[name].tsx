@@ -2,14 +2,14 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { trpc } from "../../../utils/trpc";
 import Error from "next/error";
+import Image from "next/image";
+import type { ImageLoaderProps } from "next/image";
+import { inferQueryResponse } from "../../api/trpc/[trpc]";
 
-interface returnArray {
-  name: string;
-  id: string;
-  image: string;
-  species: string;
-}
-[];
+//helper function for NextImage
+const myLoader = ({ src, width, quality }: ImageLoaderProps) => {
+  return `${src}?w=${width}&q=${quality || 75} `;
+};
 
 const RickSearchByName: NextPage = (props) => {
   const router = useRouter();
@@ -28,6 +28,7 @@ const RickSearchByName: NextPage = (props) => {
   const handleHomeClick = () => {
     router.push("/");
   };
+
   return (
     <div>
       {isLoading ? (
@@ -42,39 +43,60 @@ const RickSearchByName: NextPage = (props) => {
         </>
       ) : data.results ? (
         <>
-          {/* <h1 className="text-2xl font-serif text-center p-4"> {}</h1> */}
-          <div className=" w-screen min-h-[600px] bg-gray-700 ">
-            <>
-              {data.results?.map((result) => {
-                return (
-                  <>
-                    <div id={result.id}>
-                      <h1 className="text-2xl font-serif text-center p-4">
-                        {result.name}
-                      </h1>
-                    </div>
-                    ;
-                    <div className="flex justify-center">
-                      <div className=" pt-14 p-2 rounded-md ">
-                        <img src={result.image} alt={result.name} />
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
-              <div className="flex justify-center p-10">
-                <button
-                  className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-                  onClick={() => handleHomeClick()}
-                >
-                  Home
-                </button>
-              </div>
-            </>
-          </div>
+          <h1 className="text-2xl font-serif text-center p-4">
+            {" "}
+            Search Term: {lookupName}
+          </h1>
+
+          <CharsList homeClick={handleHomeClick} chars={data.results} />
         </>
       ) : null}
     </div>
+  );
+};
+
+//create new react component to help infer types from trpc response. See [trpc].ts
+type CharsFromFetch = inferQueryResponse<"rickMortygetByName">["results"];
+const CharsList: React.FC<{
+  chars: CharsFromFetch;
+  homeClick: () => void;
+}> = (props) => {
+  return (
+    <>
+      <div className=" w-screen min-h-[600px] bg-gray-700 ">
+        <>
+          {props.chars?.map((result) => {
+            return (
+              <div id={result.id}>
+                <h1 className="text-2xl font-serif text-center p-4">
+                  {result.name}
+                </h1>
+                ;
+                <div id={result.id} className="flex justify-center">
+                  <div className=" pt-14 p-2 rounded-md ">
+                    <Image
+                      loader={myLoader}
+                      src={result.image}
+                      alt={result.name}
+                      height={200}
+                      width={200}
+                    />
+                  </div>{" "}
+                </div>
+              </div>
+            );
+          })}
+          <div className="flex justify-center p-10">
+            <button
+              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+              onClick={() => props.homeClick()}
+            >
+              Home
+            </button>
+          </div>
+        </>
+      </div>
+    </>
   );
 };
 

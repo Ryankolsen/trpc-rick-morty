@@ -47,8 +47,9 @@ const RickSearchByName: NextPage = (props) => {
             {" "}
             Search Term: {lookupName}
           </h1>
-
-          <CharsList homeClick={handleHomeClick} chars={data.results} />
+          <div className=" w-screen min-h-[600px] bg-gray-700 ">
+            <CharsList homeClick={handleHomeClick} chars={data.results} />
+          </div>
         </>
       ) : null}
     </div>
@@ -63,38 +64,34 @@ const CharsList: React.FC<{
 }> = (props) => {
   return (
     <>
-      <div className=" w-screen min-h-[600px] bg-gray-700 ">
-        <>
-          {props.chars?.map((result) => {
-            return (
-              <div id={result.id}>
-                <h1 className="text-2xl font-serif text-center p-4">
-                  {result.name}
-                </h1>
-                ;
-                <div id={result.id} className="flex justify-center">
-                  <div className=" pt-14 p-2 rounded-md ">
-                    <Image
-                      loader={myLoader}
-                      src={result.image}
-                      alt={result.name}
-                      height={200}
-                      width={200}
-                    />
-                  </div>{" "}
-                </div>
-              </div>
-            );
-          })}
-          <div className="flex justify-center p-10">
-            <button
-              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-              onClick={() => props.homeClick()}
-            >
-              Home
-            </button>
+      {props.chars?.map((result) => {
+        return (
+          <div key={result.id}>
+            <h1 className="text-2xl font-serif text-center p-4">
+              {result.name}
+            </h1>
+            ;
+            <div className="flex justify-center">
+              <div className=" pt-14 p-2 rounded-md ">
+                <Image
+                  loader={myLoader}
+                  src={result.image}
+                  alt={result.name}
+                  height={200}
+                  width={200}
+                />
+              </div>{" "}
+            </div>
           </div>
-        </>
+        );
+      })}
+      <div className="flex justify-center p-10">
+        <button
+          className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
+          onClick={() => props.homeClick()}
+        >
+          Home
+        </button>
       </div>
     </>
   );

@@ -65,7 +65,7 @@ export const rickMortyRouter = createRouter()
       const editedName = name.replace(" ", "%20");
       const fetchString = `https://rickandmortyapi.com/api/character/?name=${editedName}`;
       console.log(fetchString);
-      let returnArray = [{ name: "", id: "", image: "", species: "" }];
+      const returnArray = [{ name: "", id: "", image: "", species: "" }];
       try {
         const data = await fetch(fetchString).then((res) => res.json());
         console.log(data.results);
@@ -78,13 +78,6 @@ export const rickMortyRouter = createRouter()
           });
         });
         return { results: returnArray };
-
-        // return {
-        //   name: data.results[0].name,
-        //   id: data.results[0].id,
-        //   image: data.results[0].image,
-        //   species: data.results[0].species,
-        // };
       } catch (error) {
         console.error(error);
       }

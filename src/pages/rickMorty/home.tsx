@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 type Inputs = {
   number: string;
 };
-
-const Home = (props) => {
+// prettier-ignore
+const Home = () => {
   const router = useRouter();
   const {
     register,

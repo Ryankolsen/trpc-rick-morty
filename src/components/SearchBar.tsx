@@ -4,23 +4,24 @@ import { useForm, SubmitHandler, Resolver } from "react-hook-form";
 import searchIcon from "../assets/searchIcon.svg";
 import Image from "next/image";
 
-type Inputs = {
+type FormValues = {
   searchName: string;
 };
 
-const resolver: Resolver<Inputs> = async (values) => {
+const resolver: Resolver<FormValues> = async (values) => {
   return {
+    //I don't need error handling for this particular form...but I wanted to include some just to show how it works in react-hooks-form. Super easy! :)
     values: values.searchName ? values : {},
     errors: !values.searchName
       ? {
-          searchTerm: {
+          searchName: {
             type: "minLength",
             message: "Please enter something to search.",
           },
         }
       : values.searchName.length < 3
       ? {
-          searchTerm: {
+          searchName: {
             type: "minLength",
             message: "Please enter a longer search term.",
           },
@@ -28,17 +29,15 @@ const resolver: Resolver<Inputs> = async (values) => {
       : {},
   };
 };
-
 const SearchBar: NextPage = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Inputs>({ resolver });
+  } = useForm<FormValues>({ resolver });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     router.push(`/rickMortyApi/char/${data.searchName}`);
   };
   return (
@@ -54,6 +53,7 @@ const SearchBar: NextPage = () => {
             <Image src={searchIcon} alt="search" height={18} width={18} />
           </button>
         </div>
+        {errors?.searchName && <p>{errors.searchName.message}</p>}
       </form>{" "}
     </>
   );

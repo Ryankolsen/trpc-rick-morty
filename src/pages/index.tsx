@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
+import SearchBar from "../components/SearchBar";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
@@ -45,6 +46,11 @@ const Home: NextPage = (props) => {
             </button>
           </div>
         )}
+        <div className="p-8 flex justify-center">
+          {" "}
+          <SearchBar />
+        </div>
+
         <div className="flex justify-center p-8">
           <button
             className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"

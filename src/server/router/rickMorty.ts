@@ -59,16 +59,24 @@ export const rickMortyRouter = createRouter()
   .query("getByName", {
     input: z.object({
       text: z.string(),
+      page: z.string().optional(),
     }),
     async resolve({ input }) {
       const name = input.text.toString();
-      const editedName = name.replace(" ", "%20");
-      const fetchString = `https://rickandmortyapi.com/api/character/?name=${editedName}`;
+      const editedName = name.toString().replace(" ", "%20");
+      let fetchString;
+      console.log("input:", input);
+      if (input.page) {
+        fetchString = `https://rickandmortyapi.com/api/character/?page=${input.page}&name=${editedName}`;
+      } else {
+        fetchString = `https://rickandmortyapi.com/api/character/?name=${editedName}`;
+      }
       console.log(fetchString);
+      console.log("input.page", input.page);
       const returnArray = [{ name: "", id: "", image: "", species: "" }];
       try {
         const data = await fetch(fetchString).then((res) => res.json());
-        console.log(data.results);
+        // console.log(data);
         data.results.forEach((result: Data) => {
           returnArray.push({
             name: result.name,
@@ -77,7 +85,13 @@ export const rickMortyRouter = createRouter()
             species: result.species,
           });
         });
-        return { results: returnArray };
+        return {
+          results: returnArray,
+          count: data.info.count,
+          pages: data.info.pages,
+          next: data.info.next,
+          prev: data.info.prev,
+        };
       } catch (error) {
         console.error(error);
       }

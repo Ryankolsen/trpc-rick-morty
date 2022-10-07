@@ -105,7 +105,7 @@ const Navbar: NextPage = () => {
                 className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 <span className="sr-only">View notifications</span>
-                {/* <!-- Heroicon name: outline/bell --> */}
+                {/* <!--  outline/bell --> */}
                 <Image src={bellSvg} alt="Open Menu" height={20} width={20} />
               </button>
 
@@ -145,7 +145,11 @@ const Navbar: NextPage = () => {
         </div>
 
         {/* <!-- Mobile menu, show/hide based on showMobileMenu state. --> */}
-        <div className={`${showMobileMenu ? "visible" : "invisible h-0"} `}>
+        <div
+          className={`${
+            showMobileMenu ? "visible" : "invisible h-0"
+          } sm:invisible sm:h-0 `}
+        >
           <div className="space-y-1 px-2 pt-2 pb-3">
             <button
               className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"

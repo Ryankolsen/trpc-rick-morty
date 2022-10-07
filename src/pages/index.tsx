@@ -25,27 +25,6 @@ const Home: NextPage = (props) => {
       <main className="container mx-auto  min-h-screen p-4">
         <h1 className="text-3xl text-center">Rick And Morty</h1>
 
-        {session ? (
-          <div>
-            <p>Hi {session.user?.name}</p>
-
-            <button
-              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-              onClick={() => signOut()}
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button
-              className="bg-transparent hover:bg-violet-800 text-gray-50 font-semibold hover:text-white py-2 px-4 border border-slate-300 hover:border-transparent rounded"
-              onClick={() => signIn("discord")}
-            >
-              Login with Discord
-            </button>
-          </div>
-        )}
         <div className="p-8 flex justify-center">
           {" "}
           <SearchBar />
